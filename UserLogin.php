@@ -3,7 +3,7 @@
 
   $userName = $_POST['username'];
   $password = $_POST['password'];
-  $response['success']=false;
+  $response['success']=null;
   $response['data']=null;
 
   try {
@@ -21,8 +21,9 @@
       $response['success'] = true;
       $response['data'] = $data;
     }
-  } catch (\Exception $e) {
+  } catch (mysqli_sql_exception $e) {
     echo "Error: ". $e->getMessage();
+    $response['success'] = false;
   } finally{
     mysqli_close($con);
     echo json_encode($response);

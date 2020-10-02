@@ -1,0 +1,29 @@
+<?php
+  require_once('Connection.php');
+
+  $name = $_POST['name'];
+  $userName = $_POST['username'];
+  $password = $_POST['password'];
+  $response['success'] = null;
+  $response['message'] = '';
+
+  try {
+    $con = Connect();
+    $sql = 'INSERT INTO usuarios (nombre, usuario, PASSWORD) VALUES (?, ?, MD5(?))';
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param('sss', $name, $userName, $password);
+    $stmt->execute();
+    $con->commit();
+    $response['success'] = true;
+    $response['message'] = 'new user added';
+  } catch (mysqli_sql_exception $e) {
+    $con->rollBack();
+    echo "Error: " . $e->getMessage();
+    $response['success'] = false;
+    $response['message'] = 'Error';
+  } finally{
+    mysqli_close($con);
+    echo json_encode($response);
+  }
+
+ ?>

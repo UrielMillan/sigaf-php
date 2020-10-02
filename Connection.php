@@ -7,10 +7,12 @@
     $db_database="sigaf";
     $db_port = '3306';
 
+    mysqli_report(MYSQLI_REPORT_ALL);
 		$con = mysqli_connect($db_host,$db_user,$db_password,$db_database,$db_port);
 
     if(!mysqli_connect_errno()){
       $con -> set_charset("utf8");
+      $con -> autocommit(false);
       return $con;
     }
     else{
