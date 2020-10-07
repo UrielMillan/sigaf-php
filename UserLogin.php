@@ -1,4 +1,5 @@
 <?php
+  header("Access-Control-Allow-Origin: *");
   require_once('Connection.php');
 
   $userName = $_POST['username'];
@@ -20,6 +21,8 @@
       }
       $response['success'] = true;
       $response['data'] = $data;
+    }else{
+      $response['success'] = false;
     }
   } catch (mysqli_sql_exception $e) {
     echo "Error: ". $e->getMessage();
