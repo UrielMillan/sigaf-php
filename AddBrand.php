@@ -2,21 +2,21 @@
   header("Access-Control-Allow-Origin: *");
   require_once('Connection.php');
 
-  $name = $_POST['name'];
-  $userName = $_POST['username'];
-  $password = $_POST['password'];
+  $code = $_POST['code'];
+  $description = $_POST['description'];
+  $note = $_POST['note'];
   $response['success'] = null;
   $response['message'] = '';
 
   try {
     $con = Connect();
-    $sql = 'INSERT INTO usuarios (nombre, usuario, PASSWORD) VALUES (?, ?, MD5(?))';
+    $sql = 'INSERT INTO brands (code, description, note) VALUES (?, ?, ?)';
     $stmt = $con->prepare($sql);
-    $stmt->bind_param('sss', $name, $userName, $password);
+    $stmt->bind_param('sss', $code, $description, $note);
     $stmt->execute();
     $con->commit();
     $response['success'] = true;
-    $response['message'] = 'new user added';
+    $response['message'] = 'new brand added';
   } catch (mysqli_sql_exception $e) {
     $con->rollBack();
     echo "Error: " . $e->getMessage();
